@@ -1,5 +1,5 @@
 <template>
-  <button @click="logout">Logout</button>
+  <button class="btnLogout" @click="logout">Logout</button>
 </template>
 
 <script>
@@ -27,3 +27,18 @@ export default {
   }
 }
 </script>
+
+<style>
+.btnLogout {
+  padding: 6px 20px;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+}
+
+.btnLogout {
+  background-color: #4a26ca;
+}
+</style>

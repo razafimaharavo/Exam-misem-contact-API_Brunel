@@ -1,6 +1,6 @@
 <template>
   <div class="user-edit">
-    <h1>Modification d'utilisateur</h1>
+    <h1>Modification du contact</h1>
     <form @submit.prevent="updateUser">
       <input v-model="user.name" placeholder="Name" />
       <input v-model="user.first_name" placeholder="First Name" />

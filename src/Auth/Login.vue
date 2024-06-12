@@ -11,6 +11,7 @@
         <label class="form_label">Password:</label>
       </div>
       <button type="submit">Login</button>
+      <router-link to="/register" class="link">Registrer</router-link>
     </form>
   </div>
 </template>

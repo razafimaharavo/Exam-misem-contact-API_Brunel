@@ -62,7 +62,7 @@ const router = createRouter({
     routes
 });
 
-// Gardien de navigation global
+// Gardien de navigation global, pour securiser le route d'après le besoin de Monsieur
 router.beforeEach((to, from, next) => {
     const publicPages = ['/login', '/register'];
     const authRequired = !publicPages.includes(to.path);

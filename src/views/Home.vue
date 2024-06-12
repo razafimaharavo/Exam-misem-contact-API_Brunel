@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Logout from '@/Auth/Logout.vue'; // Assurez-vous de spécifier le bon chemin vers votre composant Logout
+import Logout from '@/Auth/Logout.vue'; 
 
 export default {
   name: 'Home',
