@@ -3,12 +3,71 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateContactRequest;
+use App\Http\Requests\NewContactRequest;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-class ContactController extends Controller
+/**
+ * @OA\Schema(
+ *     schema="Contact",
+ *     type="object",
+ *     properties={
+ *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="first_name", type="string"),
+ *         @OA\Property(property="numTel", type="string"),
+ *         @OA\Property(property="image", type="string")
+ *     }
+ * )
+ *
+ * @OA\Schema(
+ *     schema="NewContact",
+ *     type="object",
+ *     required={"name", "first_name", "numTel", "image"},
+ *     properties={
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="first_name", type="string"),
+ *         @OA\Property(property="numTel", type="string"),
+ *         @OA\Property(property="image", type="string", format="binary")
+ *     }
+ * )
+ *
+ * @OA\Schema(
+ *     schema="UpdateContact",
+ *     type="object",
+ *     properties={
+ *         @OA\Property(property="name", type="string"),
+ *         @OA\Property(property="first_name", type="string"),
+ *         @OA\Property(property="numTel", type="string"),
+ *         @OA\Property(property="image", type="string", format="binary")
+ *     }
+ * )
+ */
+
+
+class ContactController extends Controller //Controlleur pour gerer les crud sur contact
 {
+
+    /**
+     * @OA\Get(
+     *      path="/contacts",
+     *      operationId="getContactsList",
+     *      tags={"Contacts"},
+     *      summary="Get list of contacts",
+     *      description="Returns list of contacts",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Contact"))
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server error"
+     *      )
+     * )
+     */
     public function get()
     {
         try {
@@ -19,7 +78,30 @@ class ContactController extends Controller
         }
     }
 
-    public function create(Request $request)
+
+    /**
+     * @OA\Post(
+     *      path="/contacts",
+     *      operationId="createContact",
+     *      tags={"Contacts"},
+     *      summary="Create a new contact",
+     *      description="Creates a new contact",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/NewContactRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Contact created successfully",
+     *          @OA\JsonContent(ref="#/components/schemas/Contact")
+     *       ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server error"
+     *      )
+     * )
+     */
+    public function create(NewContactRequest $request)
     {
         // Validation des données
         $validated = $request->validate([
@@ -49,7 +131,35 @@ class ContactController extends Controller
     }
 
 
-
+    /**
+     * @OA\Get(
+     *      path="/contacts/{id}",
+     *      operationId="getContactById",
+     *      tags={"Contacts"},
+     *      summary="Get contact by ID",
+     *      description="Returns a single contact",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Contact ID",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Contact")
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Contact not found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server error"
+     *      )
+     * )
+     */
     public function getById($id)
     {
         try {
@@ -60,7 +170,42 @@ class ContactController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+
+
+    /**
+     * @OA\Put(
+     *      path="/contacts/{id}",
+     *      operationId="updateContact",
+     *      tags={"Contacts"},
+     *      summary="Update a contact",
+     *      description="Updates a contact",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Contact ID",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/UpdateContactRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Contact updated successfully",
+     *          @OA\JsonContent(ref="#/components/schemas/Contact")
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Contact not found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server error"
+     *      )
+     * )
+     */
+    public function update(UpdateContactRequest $request, $id)
     {
         // Validation des données
         $validated = $request->validate([
@@ -101,10 +246,37 @@ class ContactController extends Controller
         }
     }
 
-    
 
 
 
+    /**
+     * @OA\Delete(
+     *      path="/contacts/{id}",
+     *      operationId="deleteContact",
+     *      tags={"Contacts"},
+     *      summary="Delete a contact",
+     *      description="Deletes a contact",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Contact ID",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Contact deleted successfully",
+     *       ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Contact not found"
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Server error"
+     *      )
+     * )
+     */
     public function delete($id)
     {
         try {
