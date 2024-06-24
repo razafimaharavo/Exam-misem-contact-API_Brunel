@@ -8,6 +8,7 @@ use App\Http\Requests\NewContactRequest;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
@@ -50,6 +51,7 @@ use Illuminate\Support\Facades\Log;
 class ContactController extends Controller //Controlleur pour gerer les crud sur contact
 {
 
+   
     /**
      * @OA\Get(
      *      path="/contacts",
@@ -88,7 +90,7 @@ class ContactController extends Controller //Controlleur pour gerer les crud sur
      *      description="Creates a new contact",
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/NewContactRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/NewContact")
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -123,12 +125,13 @@ class ContactController extends Controller //Controlleur pour gerer les crud sur
             $contact = Contact::create($validated);
 
             // Réponse JSON
-            return response()->json($contact, 201); // Utilisez le code de statut 201 pour indiquer que la ressource a été créée
+            return response()->json($contact, 201);
         } catch (\Throwable $t) {
-            // En cas d'erreur, renvoyer un message d'erreur avec un code de statut 500
             return response()->json(['error' => $t->getMessage()], 500);
         }
     }
+
+    // Méthodes getById, update et delete inchangées
 
 
     /**
@@ -171,40 +174,39 @@ class ContactController extends Controller //Controlleur pour gerer les crud sur
     }
 
 
-
-    /**
-     * @OA\Put(
-     *      path="/contacts/{id}",
-     *      operationId="updateContact",
-     *      tags={"Contacts"},
-     *      summary="Update a contact",
-     *      description="Updates a contact",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Contact ID",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(type="integer")
-     *      ),
-     *      @OA\RequestBody(
-     *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdateContactRequest")
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Contact updated successfully",
-     *          @OA\JsonContent(ref="#/components/schemas/Contact")
-     *       ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Contact not found"
-     *      ),
-     *      @OA\Response(
-     *          response=500,
-     *          description="Server error"
-     *      )
-     * )
-     */
+/**
+ * @OA\Put(
+ *      path="/contacts/{id}",
+ *      operationId="updateContact",
+ *      tags={"Contacts"},
+ *      summary="Update a contact",
+ *      description="Updates a contact",
+ *      @OA\Parameter(
+ *          name="id",
+ *          description="Contact ID",
+ *          required=true,
+ *          in="path",
+ *          @OA\Schema(type="integer")
+ *      ),
+ *      @OA\RequestBody(
+ *          required=true,
+ *          @OA\JsonContent(ref="#/components/schemas/UpdateContact")
+ *      ),
+ *      @OA\Response(
+ *          response=200,
+ *          description="Contact updated successfully",
+ *          @OA\JsonContent(ref="#/components/schemas/Contact")
+ *       ),
+ *      @OA\Response(
+ *          response=404,
+ *          description="Contact not found"
+ *      ),
+ *      @OA\Response(
+ *          response=500,
+ *          description="Server error"
+ *      )
+ * )
+ */
     public function update(UpdateContactRequest $request, $id)
     {
         // Validation des données
