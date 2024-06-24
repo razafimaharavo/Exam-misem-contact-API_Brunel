@@ -59,6 +59,16 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import '@ionic/core/css/ionic.bundle.css';
+import { addIcons } from 'ionicons';
+import { refresh } from 'ionicons/icons';
+
+/* @import '@ionic/vue/css/palettes/dark.always.css'; */
+/* @import '@ionic/vue/css/palettes/dark.class.css'; */
+import '@ionic/vue/css/palettes/dark.system.css';
+
+addIcons({
+  'refresh': refresh,
+});
 
 const app = createApp(App)
   .use(IonicVue)

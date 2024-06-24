@@ -8,18 +8,22 @@
       <ion-content class="ion-padding">
         <ion-item>
           <ion-label position="floating">Name</ion-label>
+          <br>
           <ion-input v-model="name" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Email</ion-label>
+          <br>
           <ion-input type="email" v-model="email" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Password</ion-label>
+          <br>
           <ion-input type="password" v-model="password" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Confirm Password</ion-label>
+          <br>
           <ion-input type="password" v-model="password_confirmation" required></ion-input>
         </ion-item>
         <div class="ion-margin-top">

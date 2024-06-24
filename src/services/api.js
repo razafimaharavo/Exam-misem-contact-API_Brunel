@@ -33,9 +33,9 @@ export default {
         return apiClient.delete(`/contacts/${id}`);
     },
     loginUser(data) {
-        return apiClient.post('/api/login', data); // Assurez-vous que l'URL est correcte
+        return apiClient.post('/api/login', data); 
     },
     createUserRegister(data) {
-        return apiClient.post('/api/register', data); // Assurez-vous que l'URL est correcte
+        return apiClient.post('/api/register', data); 
     }
 };
