@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\WelcomeEmail;
+use Illuminate\Support\Facades\Notification;
 
 class AuthController extends Controller
 {
@@ -48,6 +50,29 @@ class AuthController extends Controller
      */
 
     //Code pour faire le registre
+    // public function register(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|string|email|max:255|unique:users_comptes',
+    //         'password' => 'required|string|min:6|confirmed',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json(['errors' => $validator->errors()], 422);
+    //     }
+
+    //     $user = User::create([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'password' => Hash::make($request->password),
+    //     ]);
+
+    //     $token = $user->createToken('MyApp')->plainTextToken;
+
+    //     return response()->json(['token' => $token, 'name' => $user->name], 201);
+    // }
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -67,6 +92,9 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('MyApp')->plainTextToken;
+
+        // Envoyer l'email de bienvenue
+        Notification::send($user, new WelcomeEmail());
 
         return response()->json(['token' => $token, 'name' => $user->name], 201);
     }
