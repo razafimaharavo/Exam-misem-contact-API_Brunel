@@ -1,0 +1,44 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API Documentation",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/user": {
+        "get": {
+          "summary": "Get user",
+          "responses": {
+            "200": {
+              "description": "Successful operation"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update user",
+          "responses": {
+            "200": {
+              "description": "User updated"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete user",
+          "responses": {
+            "200": {
+              "description": "User deleted"
+            }
+          }
+        },
+        "post": {
+          "summary": "Create user",
+          "responses": {
+            "200": {
+              "description": "User created"
+            }
+          }
+        }
+      }
+    }
+  }
+  

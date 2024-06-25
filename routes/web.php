@@ -15,6 +15,9 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/documentation', function () {
+    return view('documentation');
+});
 
 Route::prefix('contacts')->group(function(){
     Route::get('/', [ContactController::class, 'get']);
