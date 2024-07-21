@@ -124,27 +124,35 @@
 //   }
 // }
 
-
 // import 'package:flutter/material.dart';
 // import 'screens/login_screen.dart';
 // import 'screens/register_screen.dart';
 // import 'screens/home_screen.dart';
+// import 'screens/user_list.dart';
+// import 'screens/user_create.dart';
+// import 'screens/user_detail.dart';
 
 // void main() {
-//   runApp(MyApp());
+//   runApp(const MyApp());
 // }
 
 // class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
-//       title: 'Flutter App',
-//       theme: ThemeData(primarySwatch: Colors.blue),
-//       initialRoute: '/login',
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: LoginScreen(),
 //       routes: {
-//         '/login': (context) => LoginScreen(),
+//         '/home': (context) => Home(),
 //         '/register': (context) => RegisterScreen(),
-//         '/home': (context) => HomeScreen(),
+//         '/users': (context) => UserListScreen(),
+//         '/users/create': (context) => UserCreateScreen(),
+//         '/userDetail': (context) => UserDetailScreen(userId: 0), // Default ID
 //       },
 //     );
 //   }
@@ -158,6 +166,7 @@ import 'screens/home_screen.dart';
 import 'screens/user_list.dart';
 import 'screens/user_create.dart';
 import 'screens/user_detail.dart';
+import 'screens/user_edit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -169,22 +178,41 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Gestion des Utilisateurs',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginScreen(),
+      initialRoute: '/',
       routes: {
+        '/': (context) => LoginScreen(),
         '/home': (context) => Home(),
         '/register': (context) => RegisterScreen(),
         '/users': (context) => UserListScreen(),
         '/users/create': (context) => UserCreateScreen(),
-        '/userDetail': (context) => UserDetailScreen(userId: 0), // Default ID
+        '/userDetail': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as int;
+          return UserDetailScreen(userId: args);
+        },
+        '/userEdit': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as int;
+          return UserEditScreen(userId: args);
+        },
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/userDetail') {
+          final args = settings.arguments as int;
+          return MaterialPageRoute(
+            builder: (context) => UserDetailScreen(userId: args),
+          );
+        } else if (settings.name == '/userEdit') {
+          final args = settings.arguments as int;
+          return MaterialPageRoute(
+            builder: (context) => UserEditScreen(userId: args),
+          );
+        }
+        return null;
       },
     );
   }
 }
-
-
-
-// Assurez-vous de créer les écrans HomeScreen et RegisterScreen

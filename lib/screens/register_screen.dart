@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
 
       if (response.statusCode == 200) {
-        Navigator.pushReplacementNamed(context, '/login');
+        Navigator.pushReplacementNamed(context, '/');
       } else {
         // Handle error
         print('Registration failed');
@@ -67,7 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushNamed(context, '/');
               },
               child: Text('Login'),
             ),
